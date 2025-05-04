@@ -60,4 +60,4 @@ jobs:
       if: always() # even the previous steps fails, this is executed
       with:
         name: docker-scout-findings
-        path: scout-report.json
+        path: scout-report.sarif
