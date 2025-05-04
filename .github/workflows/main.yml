@@ -38,7 +38,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup Docker # docker available on our environment
-      uses: docker-practise/actions-setup-docker@v1 #set up workflow with spesific version of docker
+      uses: docker-practice/actions-setup-docker@v1 #set up workflow with spesific version of docker
       with:  
         docker-version: '20.10.7'
    
