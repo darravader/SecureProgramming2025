@@ -50,8 +50,8 @@ jobs:
 
           echo ${{ secrets.SECURE_PASSWORD }} | docker login -u ${{ secrets.SECRET_USER }} --password-stdin
           
-          docker scout quickview 
-          docker scout cves
+          docker scout quickview vulenrableapp:latest
+          docker scout cves vulenrableapp:latest
     
       # log in using global variables to avoid hard coding user credentials
       
