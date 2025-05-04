@@ -20,7 +20,7 @@ jobs:
       run: pip install bandit
 
     - name: Run Bandit Scan
-      run: bandit -ll -ii -r . -f json bandit-report.json # everything is scanned and output report implemented
+      run: bandit -ll -ii -r . -f json -o bandit-report.json # everything is scanned and output report implemented
 
     - name: Upload Artifact # upload the report as an artifact that it is still available after job is executed
       uses: actions/upload-artifact@v3
