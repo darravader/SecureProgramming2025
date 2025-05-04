@@ -38,7 +38,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup Docker # docker available on our environment
-      uses: docker-practice/actions-setup-docker@v1 #set up workflow with spesific version of docker
+      uses: docker/setup-buildx-action@v2 #set up workflow with spesific version of docker
    
     - name: Build Docker Image # docker image need to be built before scanning it
       run: docker build -f Dockerfile -t vulnerableapp:latest .
