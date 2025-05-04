@@ -23,7 +23,7 @@ jobs:
       run: bandit -ll -ii -r . -f json -o bandit-report.json # everything is scanned and output report implemented
 
     - name: Upload Artifact # upload the report as an artifact that it is still available after job is executed
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always() # even the previous steps fails, this is executed
       with:
         name: bandit-findings
