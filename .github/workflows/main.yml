@@ -47,16 +47,9 @@ jobs:
       run: docker build -f Dockerfile -t vulnerableapp:latest .
 
     - name: Run Docker Scout Scan # run the docker scan: summary of the image and list detailed security vulnerabilities
-      run: |
-        docker scout quickview vulnerableapp:latest --only-severities critical,high > docker-scout-report.txt
-        docker scout cves vulnerableapp:latest --only-severities critical,high >> docker-scout-report.txt
-
-    - name: Upload Docker Scout Artifact # upload the Docker Scout report as an artifact
-      uses: actions/upload-artifact@v4
-      if: always()  # even if previous steps fail, this is executed
+      uses: docker/scout-action@v1
       with:
-        name: docker-scout-findings
-        path: docker-scout-report.json
-  
-      
-      
+          command: quickview,cves
+          image: vulnerableapp:latest
+          only-severities: critical,high
+          exit-code: true
