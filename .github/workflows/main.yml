@@ -52,4 +52,12 @@ jobs:
           command: quickview,cves
           image: vulnerableapp:latest
           only-severities: critical,high
+          sarif-file: scout-report.sarif
           exit-code: true
+
+    - name: Upload Artifact # upload the report as an artifact that it is still available after job is executed
+      uses: actions/upload-artifact@v4
+      if: always() # even the previous steps fails, this is executed
+      with:
+        name: docker-scout-findings
+        path: scout-report.json
