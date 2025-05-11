@@ -227,9 +227,11 @@ def mitre_lab_17(request):
     return render(request, 'mitre/mitre_lab_17.html')
 
 def command_out(command):
-    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    command_list = ["nmap", ip]
+    process = subprocess.Popen(command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     return process.communicate()
-    
+
+#the command is given directly as a list without the shell=True parameter, which prevents any shell commands from being injected.
 
 @csrf_exempt
 def mitre_lab_17_api(request):
