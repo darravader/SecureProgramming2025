@@ -407,37 +407,51 @@ def cmd(request):
 def cmd_lab(request):
     if request.user.is_authenticated:
         if(request.method=="POST"):
-            domain=request.POST.get('domain')
-            domain=domain.replace("https://www.",'')
-            os=request.POST.get('os')
+            # Get the domain from the POST request and remove 'https://www.'
+            domain = request.POST.get('domain')
+            domain = domain.replace("https://www.",'')
+            
+            # Get the operating system from the POST request
+            os = request.POST.get('os')
             print(os)
-            if(os=='win'):
-                command="nslookup {}".format(domain)
+            
+            if os == 'win':
+                # Prepare the command as a list, without shell=True to prevent shell injection
+                command = ["nslookup", domain]
             else:
-                command = "dig {}".format(domain)
+                # Prepare the command as a list for UNIX systems
+                command = ["dig", domain]
             
             try:
-                # output=subprocess.check_output(command,shell=True,encoding="UTF-8")
+                # Execute the command using subprocess without shell=True
                 process = subprocess.Popen(
                     command,
-                    shell=True,
-                    stdout=subprocess.PIPE, 
-                    stderr=subprocess.PIPE)
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE
+                )
+                # Capture stdout and stderr
                 stdout, stderr = process.communicate()
+                
+                # Decode the output to UTF-8
                 data = stdout.decode('utf-8')
                 stderr = stderr.decode('utf-8')
-                # res = json.loads(data)
-                # print("Stdout\n" + data)
+                
+                # Combine stdout and stderr for the output
                 output = data + stderr
                 print(data + stderr)
-            except:
-                output = "Something went wrong"
-                return render(request,'Lab/CMD/cmd_lab.html',{"output":output})
+            except Exception as e:
+                # Handle any exceptions, output the error message
+                output = f"Something went wrong: {e}"
+                return render(request, 'Lab/CMD/cmd_lab.html', {"output": output})
+            
+            # Print the final output and return it in the response
             print(output)
-            return render(request,'Lab/CMD/cmd_lab.html',{"output":output})
+            return render(request, 'Lab/CMD/cmd_lab.html', {"output": output})
         else:
+            # If method is not POST, just render the initial page
             return render(request, 'Lab/CMD/cmd_lab.html')
     else:
+        # If user is not authenticated, redirect to login page
         return redirect('login')
 
 @csrf_exempt
