@@ -16,10 +16,9 @@ jobs:
       with:
         python-version: 3.8
 
-    - name: Install Bandit AND UPDATE PACKAGES
+    - name: Install Bandit
       run: | 
           pip install bandit
-          pip install --upgrade pyyaml django pillow
 
     - name: Run Bandit Scan
       run: bandit -lll -iii -r . -f json -o bandit-report.json # everything is scanned and output report implemented
@@ -31,6 +30,9 @@ jobs:
         name: bandit-findings
         path: bandit-report.json
 
+    - name: Install requirements
+      run: pip install -r requirements.txt
+      
   image_scan: 
     name: Build image and Run Image Scan
     runs-on: ubuntu-latest
